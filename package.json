@@ -1,0 +1,29 @@
+{
+  "name": "sk-starter",
+  "version": "1.0.0",
+  "description": "A simple starter template for personal projects.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theKhorshed/sk-starter.git"
+  },
+  "author": "Khorshed Alam",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/theKhorshed/sk-starter/issues"
+  },
+  "homepage": "https://github.com/theKhorshed/sk-starter",
+  "devDependencies": {
+    "browser-sync": "^2.10.0",
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-file-include": "^0.13.7",
+    "gulp-if": "^2.0.0",
+    "gulp-jshint": "^1.12.0",
+    "gulp-minify-html": "^1.0.4",
+    "gulp-sass": "^2.1.0",
+    "gulp-uglify": "^1.5.1",
+    "gulp-w3cjs": "^1.2.0",
+    "jshint-stylish": "^2.1.0"
+  }
+}
