@@ -1,0 +1,47 @@
+/*------------------------------------------------------------------
+
+ *
+ * Author      : Khorshed Alam (thekhorshed)
+ * Project     : KA Starter
+ * Version     : 1.0.0
+ * Description : Just a simple starter template to jump start your development.
+ * Primary use : Starter Template
+ * Last update : YYYY/MM/DD
+ *
+
+ * -----------------------------------------------------------------*
+ *                         TABLE OF CONTENTS                        *
+ * -----------------------------------------------------------------*
+ *
+ * 01. Base Styles
+ * 02. Header
+ * 03. Navigation
+ * 04. Footer Styles
+ * 05. Responsive Styles
+ *
+
+ * -----------------------------------------------------------------*
+ *                        Color Codes                               *
+ * -----------------------------------------------------------------*
+
+ * $theme-color         : #fc854b;
+
+ * $text-color          : #787878;
+ * $text-color-dark     : #444444;
+ * $bg-color-light      : #FFFFFF;
+ * $bg-color-dark       : #f1f1f1;
+
+-------------------------------------------------------------------*/
+
+
+//Variables
+@import "variables";
+
+//Base
+@import "base";
+
+//Layout
+@import "layout/header";
+@import "layout/nav";
+@import "layout/footer";
+@import "layout/responsive";
