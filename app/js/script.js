@@ -1,6 +1,6 @@
 // IIFE with jQuery Wrapper
 (function($) {
-  "use strict";
+  'use strict';
 
   /*
    *----------------------------------
