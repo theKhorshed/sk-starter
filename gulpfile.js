@@ -9,6 +9,8 @@ var gulpif       = require('gulp-if');
 var uglify       = require('gulp-uglify');
 var concat       = require('gulp-concat');
 var stylish      = require('jshint-stylish');
+var plumber      = require('gulp-plumber');
+var notify       = require('gulp-notify');
 var minifyHTML   = require('gulp-minify-html');
 var minifyCSS    = require('gulp-minify-css');
 var fileinclude  = require('gulp-file-include');
@@ -36,7 +38,8 @@ gulp.task('html', function() {
 
 gulp.task('sass', function() {
   return gulp.src( sassSources )
-    .pipe(sass().on('error', sass.logError))
+    .pipe(customPlumber('Error Running Sass'))
+    .pipe(sass())
     .pipe(autoprefixer())
     .pipe(gulpif( !devMode, minifyCSS({compatibility: 'ie8'})))
     .pipe(gulp.dest( outputDir + 'css' ))
@@ -76,3 +79,13 @@ gulp.task('watch', function() {
   gulp.watch(jsSources, ['js']);
 });
 
+function customPlumber(errTitle) {
+  return plumber({
+    errorHandler: notify.onError({
+      // Customizing error title
+      title: errTitle || "Error running Gulp",
+      message: "Error: <%= error.message %>",
+      sound: "Glass"
+    })
+  });
+}
