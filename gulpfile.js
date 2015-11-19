@@ -10,6 +10,7 @@ var uglify       = require('gulp-uglify');
 var concat       = require('gulp-concat');
 var stylish      = require('jshint-stylish');
 var minifyHTML   = require('gulp-minify-html');
+var minifyCSS    = require('gulp-minify-css');
 var fileinclude  = require('gulp-file-include');
 var autoprefixer = require('gulp-autoprefixer');
 var browserSync  = require('browser-sync').create();
@@ -43,6 +44,7 @@ gulp.task('sass', function() {
   return gulp.src( sassSources )
     .pipe(sass().on('error', sass.logError))
     .pipe(autoprefixer())
+    .pipe(gulpif( !env_dev, minifyCSS({compatibility: 'ie8'})))
     .pipe(gulp.dest( outputDir + 'css' ))
     .pipe(browserSync.reload({
       stream: true
