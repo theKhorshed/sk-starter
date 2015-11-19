@@ -66,3 +66,5 @@ gulp.task('serve', ['html', 'sass', 'js'], function() {
     port: 8080
   });
 });
+
+gulp.task('default', ['serve']);
