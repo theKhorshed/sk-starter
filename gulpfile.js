@@ -15,25 +15,19 @@ var fileinclude  = require('gulp-file-include');
 var autoprefixer = require('gulp-autoprefixer');
 var browserSync  = require('browser-sync').create();
 
-var env_dev, jsSources, sassSources, htmlSources, outputDir, sassStyle;
+var devMode, jsSources, sassSources, htmlSources, outputDir, sassStyle;
 
-env_dev     = true;
 htmlSources = ['app/*.html'];
 sassSources = ['app/scss/**/*.scss'];
 jsSources   = ['app/js/*.js'];
 
-if ( env_dev ) {
-  outputDir = 'builds/development/';
-  sassStyle = 'expanded';
-} else {
-  outputDir = 'builds/production/';
-  sassStyle = 'compressed';
-}
+devMode     = true;
+outputDir   = devMode ? 'builds/development/' : 'builds/production/';
 
 gulp.task('html', function() {
   return gulp.src(htmlSources)
     .pipe(fileinclude({ basepath: 'app/partials/'}))
-    .pipe(gulpif( !env_dev, minifyHTML({empty: true})))
+    .pipe(gulpif( !devMode, minifyHTML({empty: true})))
     .pipe(gulp.dest(outputDir))
     .pipe(browserSync.reload({
       stream: true
@@ -44,7 +38,7 @@ gulp.task('sass', function() {
   return gulp.src( sassSources )
     .pipe(sass().on('error', sass.logError))
     .pipe(autoprefixer())
-    .pipe(gulpif( !env_dev, minifyCSS({compatibility: 'ie8'})))
+    .pipe(gulpif( !devMode, minifyCSS({compatibility: 'ie8'})))
     .pipe(gulp.dest( outputDir + 'css' ))
     .pipe(browserSync.reload({
       stream: true
@@ -57,7 +51,7 @@ gulp.task('js', function() {
     .pipe(jshint.reporter('jshint-stylish'))
     .pipe(concat('script.js'))
     .on('error', gutil.log)
-    .pipe(gulpif( !env_dev, uglify()))
+    .pipe(gulpif( !devMode, uglify()))
     .pipe(gulp.dest(outputDir + 'js'))
     .pipe(browserSync.reload({
       stream: true
