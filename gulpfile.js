@@ -52,3 +52,12 @@ gulp.task('js', function() {
     .pipe(gulpif( !env_dev, uglify()))
     .pipe(gulp.dest(outputDir + 'js'))
 });
+
+gulp.task('serve', function() {
+  browserSync.init({
+    server: {
+      baseDir: outputDir
+    },
+    port: 8080
+  });
+});
