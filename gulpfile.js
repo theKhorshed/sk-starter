@@ -51,6 +51,13 @@ gulp.task('sass', function() {
 gulp.task('js', function() {
   return gulp.src( jsSources )
     .pipe(jshint('./.jshintrc'))
+    .pipe(notify(function (file) {
+      if (file.jshint.success) {
+        // Don't show something if success
+        return false;
+      }
+      return file.relative + " (" + file.jshint.results.length + " errors)\n";
+    }))
     .pipe(jshint.reporter('jshint-stylish'))
     .pipe(concat('script.js'))
     .on('error', gutil.log)
