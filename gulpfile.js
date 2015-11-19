@@ -29,6 +29,13 @@ if ( env_dev ) {
   sassStyle = 'compressed';
 }
 
+gulp.task('html', function() {
+  return gulp.src(htmlSources)
+    .pipe(fileinclude({ basepath: 'app/partials/'}))
+    .pipe(gulpif( !env_dev, minifyHTML({empty: true})))
+    .pipe(gulp.dest(outputDir));
+});
+
 gulp.task('sass', function() {
   return gulp.src( sassSources )
     .pipe(sass().on('error', sass.logError))
