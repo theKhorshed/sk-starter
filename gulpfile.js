@@ -58,7 +58,7 @@ gulp.task('js', function() {
     .pipe(browserSync.reload());
 });
 
-gulp.task('serve', ['html', 'sass', 'js'], function() {
+gulp.task('serve', ['html', 'sass', 'js', 'watch'], function() {
   browserSync.init({
     server: {
       baseDir: outputDir
@@ -68,3 +68,10 @@ gulp.task('serve', ['html', 'sass', 'js'], function() {
 });
 
 gulp.task('default', ['serve']);
+
+gulp.task('watch', function() {
+  gulp.watch(htmlSources, ['html']);
+  gulp.watch(sassSources, ['sass']);
+  gulp.watch(jsSources, ['js']);
+});
+
