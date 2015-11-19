@@ -34,7 +34,9 @@ gulp.task('html', function() {
     .pipe(fileinclude({ basepath: 'app/partials/'}))
     .pipe(gulpif( !env_dev, minifyHTML({empty: true})))
     .pipe(gulp.dest(outputDir))
-    .pipe(browserSync.reload());
+    .pipe(browserSync.reload({
+      stream: true
+    }));
 });
 
 gulp.task('sass', function() {
@@ -55,7 +57,9 @@ gulp.task('js', function() {
     .on('error', gutil.log)
     .pipe(gulpif( !env_dev, uglify()))
     .pipe(gulp.dest(outputDir + 'js'))
-    .pipe(browserSync.reload());
+    .pipe(browserSync.reload({
+      stream: true
+    }));
 });
 
 gulp.task('serve', ['html', 'sass', 'js', 'watch'], function() {
@@ -71,6 +75,7 @@ gulp.task('default', ['serve']);
 
 gulp.task('watch', function() {
   gulp.watch(htmlSources, ['html']);
+  gulp.watch('app/partials/**/*.htm', ['html']);
   gulp.watch(sassSources, ['sass']);
   gulp.watch(jsSources, ['js']);
 });
