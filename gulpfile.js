@@ -26,8 +26,9 @@ jsSources   = ['app/js/*.js'];
 devMode     = true;
 outputDir   = devMode ? 'builds/development/' : 'builds/production/';
 
-gulp.task('html', function() {
+gulp.task('htmlinclude', function() {
   return gulp.src(htmlSources)
+    .pipe(customPlumber('Error Running html-include'))
     .pipe(fileinclude({ basepath: 'app/partials/'}))
     .pipe(gulpif( !devMode, minifyHTML({empty: true})))
     .pipe(gulp.dest(outputDir))
@@ -35,6 +36,19 @@ gulp.task('html', function() {
       stream: true
     }));
 });
+
+gulp.task('w3validate', ['htmlinclude'], function() {
+  return gulp.src(outputDir + '**/*.html')
+    .pipe(customPlumber('Error Running W3-Validate'))
+    .pipe(w3cjs())
+    .pipe(notify(function (file) {
+      if (!file.w3cjs.success) {
+        return "Validation error on " + file.relative + " (" + file.w3cjs.messages.length + " errors)\n";
+      }
+    }));
+});
+
+gulp.task('html', ['w3validate', ]);
 
 gulp.task('sass', function() {
   return gulp.src( sassSources )
@@ -50,13 +64,12 @@ gulp.task('sass', function() {
 
 gulp.task('js', function() {
   return gulp.src( jsSources )
+    .pipe(customPlumber('Error Running JS'))
     .pipe(jshint('./.jshintrc'))
     .pipe(notify(function (file) {
-      if (file.jshint.success) {
-        // Don't show something if success
-        return false;
+      if (!file.jshint.success) {
+        return file.relative + " (" + file.jshint.results.length + " errors)\n";
       }
-      return file.relative + " (" + file.jshint.results.length + " errors)\n";
     }))
     .pipe(jshint.reporter('jshint-stylish'))
     .pipe(concat('script.js'))
