@@ -33,14 +33,18 @@ gulp.task('html', function() {
   return gulp.src(htmlSources)
     .pipe(fileinclude({ basepath: 'app/partials/'}))
     .pipe(gulpif( !env_dev, minifyHTML({empty: true})))
-    .pipe(gulp.dest(outputDir));
+    .pipe(gulp.dest(outputDir))
+    .pipe(browserSync.reload());
 });
 
 gulp.task('sass', function() {
   return gulp.src( sassSources )
     .pipe(sass().on('error', sass.logError))
     .pipe(autoprefixer())
-    .pipe(gulp.dest( outputDir + 'css' ));
+    .pipe(gulp.dest( outputDir + 'css' ))
+    .pipe(browserSync.reload({
+      stream: true
+    }));
 })
 
 gulp.task('js', function() {
@@ -51,9 +55,10 @@ gulp.task('js', function() {
     .on('error', gutil.log)
     .pipe(gulpif( !env_dev, uglify()))
     .pipe(gulp.dest(outputDir + 'js'))
+    .pipe(browserSync.reload());
 });
 
-gulp.task('serve', function() {
+gulp.task('serve', ['html', 'sass', 'js'], function() {
   browserSync.init({
     server: {
       baseDir: outputDir
