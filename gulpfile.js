@@ -31,10 +31,7 @@ gulp.task('htmlinclude', function() {
     .pipe(customPlumber('Error Running html-include'))
     .pipe(fileinclude({ basepath: 'app/partials/'}))
     .pipe(gulpif( !devMode, minifyHTML({empty: true})))
-    .pipe(gulp.dest(outputDir))
-    .pipe(browserSync.reload({
-      stream: true
-    }));
+    .pipe(gulp.dest(outputDir));
 });
 
 gulp.task('w3validate', ['htmlinclude'], function() {
@@ -95,6 +92,7 @@ gulp.task('default', ['serve']);
 gulp.task('watch', function() {
   gulp.watch(htmlSources, ['html']);
   gulp.watch('app/partials/**/*.htm', ['html']);
+  gulp.watch(outputDir + '**/*.html').on('change', browserSync.reload);
   gulp.watch(sassSources, ['sass']);
   gulp.watch(jsSources, ['js']);
 });
