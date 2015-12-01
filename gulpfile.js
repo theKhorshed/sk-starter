@@ -45,7 +45,7 @@ gulp.task('w3validate', ['htmlinclude'], function() {
     }));
 });
 
-gulp.task('html', ['w3validate', ]);
+gulp.task('html', ['w3validate']);
 
 gulp.task('sass', function() {
   return gulp.src( sassSources )
