@@ -5,6 +5,7 @@ var sass         = require('gulp-sass');
 var gutil        = require('gulp-util');
 var w3cjs        = require('gulp-w3cjs');
 var jshint       = require('gulp-jshint');
+var scsslint     = require('gulp-scss-lint');
 var gulpif       = require('gulp-if');
 var uglify       = require('gulp-uglify');
 var concat       = require('gulp-concat');
@@ -50,6 +51,7 @@ gulp.task('html', ['w3validate']);
 gulp.task('sass', function() {
   return gulp.src( sassSources )
     .pipe(customPlumber('Error Running Sass'))
+    .pipe(scsslint({'config': '.scss-lint.yml'}))
     .pipe(sass())
     .pipe(autoprefixer())
     .pipe(gulpif( !devMode, minifyCSS({compatibility: 'ie8'})))
