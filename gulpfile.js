@@ -49,9 +49,16 @@ gulp.task('w3validate', ['htmlinclude'], function() {
 gulp.task('html', ['w3validate']);
 
 gulp.task('sass', function() {
+  var ignoreNotification = false;
   return gulp.src( sassSources )
     .pipe(customPlumber('Error Running Sass'))
     .pipe(scsslint({'config': '.scss-lint.yml'}))
+    .pipe(notify(function (file) {
+      if (!file.scsslint.success && !ignoreNotification) {
+        ignoreNotification = true;
+        return "SCSS lint error on: " + file.relative;
+      }
+    }))
     .pipe(sass())
     .pipe(autoprefixer())
     .pipe(gulpif( !devMode, minifyCSS({compatibility: 'ie8'})))
