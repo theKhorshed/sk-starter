@@ -14,7 +14,7 @@ var stylish      = require('jshint-stylish');
 var plumber      = require('gulp-plumber');
 var notify       = require('gulp-notify');
 var minifyHTML   = require('gulp-minify-html');
-var minifyCSS    = require('gulp-minify-css');
+var cleanCSS     = require('gulp-clean-css');
 var fileinclude  = require('gulp-file-include');
 var autoprefixer = require('gulp-autoprefixer');
 var browserSync  = require('browser-sync').create();
@@ -63,7 +63,7 @@ gulp.task('sass', function() {
     .pipe(sourcemaps.init())
     .pipe(sass())
     .pipe(autoprefixer())
-    .pipe(gulpif( !devMode, minifyCSS({compatibility: 'ie8'})))
+    .pipe(gulpif( !devMode, cleanCSS({compatibility: 'ie8'})))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest( outputDir + 'css' ))
     .pipe(browserSync.reload({
